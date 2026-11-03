@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ein einfaches Kontaktformular, programmiert mit Python und Flask.">
+    <title>Kontakt | Mein Python-Projekt</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="{{ url_for('index') }}" aria-label="Zur Startseite">
+        <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+        <span>Mein Python-Projekt</span>
+      </a>
+      <span class="header-pill">Flask · Python</span>
+    </header>
+
+    <main class="layout">
+      <section class="intro" aria-labelledby="headline">
+        <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Mein erstes Webprojekt</p>
+        <h1 id="headline">Sag einfach <em>Hallo.</em></h1>
+        <p class="intro-copy">Ein kleines Kontaktformular – erstellt mit HTML, CSS und Python. Fülle die Felder aus und probiere aus, wie eine Website deine Eingaben verarbeitet.</p>
+        <div class="feature">
+          <span class="feature-icon" aria-hidden="true">✓</span>
+          <div><strong>Einfach &amp; übersichtlich</strong><span>Drei Felder, eine Schaltfläche – fertig.</span></div>
+        </div>
+        <div class="feature">
+          <span class="feature-icon" aria-hidden="true">✓</span>
+          <div><strong>Mit Python umgesetzt</strong><span>Flask prüft die Eingaben auf dem Server.</span></div>
+        </div>
+      </section>
+
+      <section class="form-card" id="formular" aria-labelledby="form-title">
+        <div class="form-heading">
+          <span class="tag">Kontakt</span>
+          <h2 id="form-title">Schreib eine Nachricht</h2>
+          <p>Alle mit <span aria-label="Pflichtfeld">*</span> markierten Felder sind Pflichtfelder.</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        {% endwith %}
+
+        {% if errors.get('form') %}
+          <div class="alert alert-error" role="alert">{{ errors['form'] }}</div>
+        {% endif %}
+
+        <form action="{{ url_for('index') }}#formular" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+          <div class="field">
+            <label for="name">Name <span>*</span></label>
+            <input id="name" name="name" type="text" placeholder="Dein Name" maxlength="80" minlength="2" autocomplete="name" required value="{{ values['name'] }}" {% if errors.get('name') %}aria-invalid="true" aria-describedby="name-error"{% endif %}>
+            {% if errors.get('name') %}<p class="field-error" id="name-error">{{ errors['name'] }}</p>{% endif %}
+          </div>
+          <div class="field">
+            <label for="email">E-Mail-Adresse <span>*</span></label>
+            <input id="email" name="email" type="email" placeholder="name@beispiel.de" maxlength="254" autocomplete="email" required value="{{ values['email'] }}" {% if errors.get('email') %}aria-invalid="true" aria-describedby="email-error"{% endif %}>
+            {% if errors.get('email') %}<p class="field-error" id="email-error">{{ errors['email'] }}</p>{% endif %}
+          </div>
+          <div class="field">
+            <label for="message">Deine Nachricht <span>*</span></label>
+            <textarea id="message" name="message" placeholder="Was möchtest du mitteilen?" minlength="10" maxlength="2000" rows="5" required {% if errors.get('message') %}aria-invalid="true" aria-describedby="message-error"{% endif %}>{{ values['message'] }}</textarea>
+            {% if errors.get('message') %}<p class="field-error" id="message-error">{{ errors['message'] }}</p>{% endif %}
+          </div>
+          <button type="submit">Nachricht absenden <span aria-hidden="true">↗</span></button>
+          <p class="privacy-note">Hinweis: Das ist ein Demoformular. Es werden keine Nachrichten gespeichert oder per E-Mail verschickt.</p>
+        </form>
+      </section>
+    </main>
+    <footer>Entwickelt mit <strong>Python &amp; Flask</strong> · Bereit für Render</footer>
+  </body>
+</html>
