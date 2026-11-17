@@ -2,128 +2,90 @@
 {% block content %}
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow"><span class="tiny-star">✦</span> DIE MISSION: DAS PASSENDE GESCHENK</p>
-    <h1>Keine Idee?<br><em>Fall gelöst.</em></h1>
-    <p class="hero-sub">Wem möchtest du eine Freude machen? Verrat uns ein paar Details – unser Geschenk-Detektiv findet kreative Ideen, die wirklich zur Person passen.</p>
-    <div class="hero-points">
-      <span>✳ Individuelle Vorschläge</span><span>✳ Passend zum Budget</span><span>✳ Mit Begründung</span>
+    <p class="eyebrow"><span class="eyebrow-line"></span> GESCHENKE MIT PERSÖNLICHKEIT</p>
+    <h1>Das richtige Geschenk.<br><em>Eine Spurensuche.</em></h1>
+    <p class="hero-sub">Schluss mit endlosem Suchen. Ein paar Hinweise genügen – und Gift Detective findet Ideen, die wirklich zu deiner Lieblingsperson passen.</p>
+    <a class="hero-cta" href="#gift-form">Fall jetzt aufnehmen <span>↓</span></a>
+    <div class="hero-meta"><span>01 / PERSON</span><span>02 / INTERESSEN</span><span>03 / GESCHENKIDEE</span></div>
+  </div>
+  <aside class="hero-visual" aria-label="Geschenkakte">
+    <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
+    <div class="case-file">
+      <div class="file-top"><span>GIFT DETECTIVE</span><span>AKTE Nº 001</span></div>
+      <div class="file-illustration"><span class="magnifier">⌕</span><span class="file-star">✳</span></div>
+      <div class="file-label">GEHEIME GESCHENKAKTE</div>
+      <strong>Eine Freude,<br>die in Erinnerung bleibt.</strong>
+      <div class="file-bottom"><span>STATUS</span><b><i></i> IN BEARBEITUNG</b></div>
     </div>
-  </div>
-  <div class="detective-card" aria-hidden="true">
-    <div class="detective-circle"><span>?</span><span class="small-spark spark-one">✦</span><span class="small-spark spark-two">✳</span></div>
-    <div class="detective-note"><span class="note-label">AKTE #001</span><strong>Das perfekte<br>Geschenk</strong><span class="note-status">STATUS: <b>IN ERMITTLUNG</b></span></div>
-    <div class="card-stamp">TOP SECRET</div>
-  </div>
+    <span class="visual-caption">Jede gute Idee beginnt mit einem Hinweis.</span>
+  </aside>
 </section>
 
-<form class="case-form" action="{{ url_for('ideas') }}" method="post" id="gift-form">
+<section class="form-intro" id="gift-form">
+  <div><p class="eyebrow">DIE ERMITTLUNG BEGINNT</p><h2>Erzähl uns, für wen wir suchen.</h2></div>
+  <p>Sechs kurze Schritte. Je genauer deine Hinweise, desto passender die Vorschläge.</p>
+</section>
+
+<form class="case-form" action="{{ url_for('ideas') }}" method="post" id="gift-form-fields">
   <input type="hidden" name="csrf" value="{{ token }}">
   {% if errors %}<div class="alert" role="alert">Bitte überprüfe die markierten Eingaben. Dein Formular wurde noch nicht ausgewertet.</div>{% endif %}
-  <div class="form-head">
-    <div><p class="eyebrow">DEIN GESCHENK-PROFIL</p><h2>Erzähl uns von der Person.</h2></div>
-    <span class="form-badge">6 schnelle Fragen</span>
-  </div>
-
-  <section class="form-section" aria-labelledby="person-title">
-    <div class="section-marker">01</div>
-    <div class="section-main">
-      <h3 id="person-title">Für wen suchst du etwas?</h3>
-      <p class="field-description">Damit die Idee zur Person passt.</p>
-      <div class="field-grid grid-three">
-        <label class="input-group">Beziehung
-          <select name="recipient" required>
-            {% for value, text in options.recipients.items() %}<option value="{{ value }}" {% if values.recipient == value %}selected{% endif %}>{{ text }}</option>{% endfor %}
-          </select>
-        </label>
-        <label class="input-group">Altersgruppe
-          <select name="age" required>
-            {% for value, text in options.ages.items() %}<option value="{{ value }}" {% if values.age == value %}selected{% endif %}>{{ text }}</option>{% endfor %}
-          </select>
-        </label>
-        <label class="input-group">Anlass
-          <select name="occasion" required>
-            {% for value, text in options.occasions.items() %}<option value="{{ value }}" {% if values.occasion == value %}selected{% endif %}>{{ text }}</option>{% endfor %}
-          </select>
-        </label>
-      </div>
-      {% if errors.recipient or errors.age or errors.occasion %}<p class="error-text">Bitte wähle gültige Angaben zur Person.</p>{% endif %}
-    </div>
-  </section>
-
-  <section class="form-section" aria-labelledby="interests-title">
-    <div class="section-marker">02</div>
-    <div class="section-main">
-      <div class="section-heading"><div><h3 id="interests-title">Wofür begeistert sich die Person?</h3><p class="field-description">Wähle ein paar Interessen aus. Mehrere sind möglich.</p></div><span id="interest-counter" class="counter">0 ausgewählt</span></div>
-      <div class="interest-grid">
-        {% set emojis = {'lesen':'📚', 'kochen':'🍳', 'sport':'🏃', 'reisen':'🌍', 'kreativ':'🎨', 'technik':'💻', 'musik':'🎵', 'gaming':'🎮', 'wellness':'🧘', 'natur':'🌿', 'pflanzen':'🪴', 'mode':'👗', 'kaffee':'☕', 'essen':'🍫', 'fotografie':'📷', 'spiele':'🧩'} %}
-        {% for value, text in options.interests.items() %}
-        <label class="interest-choice"><input type="checkbox" name="interests" value="{{ value }}" {% if value in values.interests %}checked{% endif %}><span><span class="emoji">{{ emojis[value] }}</span>{{ text }}</span></label>
-        {% endfor %}
-      </div>
-      {% if errors.interests %}<p class="error-text">{{ errors.interests }}</p>{% endif %}
-    </div>
-  </section>
-
-  <section class="form-section" aria-labelledby="style-title">
-    <div class="section-marker">03</div>
-    <div class="section-main">
-      <h3 id="style-title">Welche Art Geschenk passt am besten?</h3>
-      <p class="field-description">Eine Richtung reicht – wir denken weiter.</p>
-      <div class="radio-grid">
-        {% set descriptions = {'praktisch':'Nützlich im Alltag', 'persoenlich':'Von Herzen', 'erlebnis':'Gemeinsame Erinnerungen', 'kreativ':'Etwas Besonderes'} %}
-        {% set symbols = {'praktisch':'↗', 'persoenlich':'♡', 'erlebnis':'✦', 'kreativ':'✳'} %}
-        {% for value, text in options.styles.items() %}
-        <label class="style-choice"><input type="radio" name="style" value="{{ value }}" {% if values.style == value %}checked{% endif %} required><span class="style-face"><span class="style-symbol">{{ symbols[value] }}</span><strong>{{ text }}</strong><small>{{ descriptions[value] }}</small></span></label>
-        {% endfor %}
-      </div>
-      {% if errors.style %}<p class="error-text">{{ errors.style }}</p>{% endif %}
-    </div>
-  </section>
-
-  <section class="form-section" aria-labelledby="budget-title">
-    <div class="section-marker">04</div>
-    <div class="section-main">
-      <h3 id="budget-title">Wie viel möchtest du ausgeben?</h3>
-      <p class="field-description">Der Detektiv sucht nur Ideen innerhalb deiner Preisgrenze.</p>
-      <div class="budget-row">
-        <label class="budget-control"><span class="sr-only">Maximales Budget in Euro</span><input id="budget" type="number" name="budget" min="5" max="500" step="1" value="{{ values.budget }}" required><span>€</span></label>
-        <div class="budget-presets" aria-label="Budgetvorschläge">
-          <button type="button" data-budget="20">20 €</button>
-          <button type="button" data-budget="40">40 €</button>
-          <button type="button" data-budget="75">75 €</button>
-          <button type="button" data-budget="120">120 €</button>
+  <div class="form-layout">
+    <aside class="form-rail"><span class="rail-kicker">DEINE AKTE</span><div class="rail-number">06</div><p>Hinweise</p><span class="rail-rule"></span><small>Alle Angaben helfen dabei, die Auswahl einzugrenzen.</small></aside>
+    <div class="form-content">
+      <section class="form-section" aria-labelledby="person-title">
+        <div class="section-heading"><span class="section-number">01</span><div><h3 id="person-title">Für wen suchst du etwas?</h3><p>Der erste Hinweis: Wer soll überrascht werden?</p></div></div>
+        <div class="field-grid grid-three">
+          <label class="input-group">Beziehung
+            <select name="recipient" required>{% for value, text in options.recipients.items() %}<option value="{{ value }}" {% if values.recipient == value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </label>
+          <label class="input-group">Altersgruppe
+            <select name="age" required>{% for value, text in options.ages.items() %}<option value="{{ value }}" {% if values.age == value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </label>
+          <label class="input-group">Anlass
+            <select name="occasion" required>{% for value, text in options.occasions.items() %}<option value="{{ value }}" {% if values.occasion == value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </label>
         </div>
-      </div>
-      {% if errors.budget %}<p class="error-text">{{ errors.budget }}</p>{% endif %}
-    </div>
-  </section>
+        {% if errors.recipient or errors.age or errors.occasion %}<p class="error-text">Bitte wähle gültige Angaben zur Person.</p>{% endif %}
+      </section>
 
-  <section class="form-section" aria-labelledby="deadline-title">
-    <div class="section-marker">05</div>
-    <div class="section-main">
-      <h3 id="deadline-title">Wann brauchst du das Geschenk?</h3>
-      <p class="field-description">Kurzfristig? Dann lassen wir aufwendige Ideen weg.</p>
-      <div class="deadline-grid">
-        {% for value, text in options.deadlines.items() %}<label class="deadline-choice"><input type="radio" name="deadline" value="{{ value }}" {% if values.deadline == value %}checked{% endif %}><span>{{ text }}</span></label>{% endfor %}
-      </div>
-      {% if errors.deadline %}<p class="error-text">{{ errors.deadline }}</p>{% endif %}
-    </div>
-  </section>
+      <section class="form-section" aria-labelledby="interests-title">
+        <div class="section-heading"><span class="section-number">02</span><div><h3 id="interests-title">Was begeistert die Person?</h3><p>Wähle mehrere Interessen aus, die zu ihr passen.</p></div><span id="interest-counter" class="counter">0 ausgewählt</span></div>
+        <div class="interest-grid">
+          {% set emojis = {'lesen':'📚', 'kochen':'🍳', 'sport':'🏃', 'reisen':'🌍', 'kreativ':'🎨', 'technik':'💻', 'musik':'🎵', 'gaming':'🎮', 'wellness':'🧘', 'natur':'🌿', 'pflanzen':'🪴', 'mode':'👗', 'kaffee':'☕', 'essen':'🍫', 'fotografie':'📷', 'spiele':'🧩'} %}
+          {% for value, text in options.interests.items() %}<label class="interest-choice"><input type="checkbox" name="interests" value="{{ value }}" {% if value in values.interests %}checked{% endif %}><span><span class="emoji">{{ emojis[value] }}</span>{{ text }}</span></label>{% endfor %}
+        </div>
+        {% if errors.interests %}<p class="error-text">{{ errors.interests }}</p>{% endif %}
+      </section>
 
-  <section class="form-section last-section" aria-labelledby="exclude-title">
-    <div class="section-marker">06</div>
-    <div class="section-main">
-      <h3 id="exclude-title">Was soll auf keinen Fall dabei sein?</h3>
-      <p class="field-description">Optional – diese Geschenkarten schließen wir aus.</p>
-      <div class="avoid-grid">
-        {% for value, text in options.exclusions.items() %}<label class="avoid-choice"><input type="checkbox" name="avoid" value="{{ value }}" {% if value in values.avoid %}checked{% endif %}><span>{{ text }}</span></label>{% endfor %}
-      </div>
-      {% if errors.avoid %}<p class="error-text">{{ errors.avoid }}</p>{% endif %}
+      <section class="form-section" aria-labelledby="style-title">
+        <div class="section-heading"><span class="section-number">03</span><div><h3 id="style-title">Welche Geschenkart passt?</h3><p>Welche Richtung soll die Überraschung haben?</p></div></div>
+        <div class="radio-grid">
+          {% set descriptions = {'praktisch':'Hilfreich und alltagstauglich', 'persoenlich':'Mit persönlicher Bedeutung', 'erlebnis':'Gemeinsame Erinnerungen', 'kreativ':'Originell und außergewöhnlich'} %}
+          {% set symbols = {'praktisch':'↗', 'persoenlich':'♡', 'erlebnis':'✦', 'kreativ':'✳'} %}
+          {% for value, text in options.styles.items() %}<label class="style-choice"><input type="radio" name="style" value="{{ value }}" {% if values.style == value %}checked{% endif %} required><span class="style-face"><span class="style-symbol">{{ symbols[value] }}</span><strong>{{ text }}</strong><small>{{ descriptions[value] }}</small></span></label>{% endfor %}
+        </div>
+        {% if errors.style %}<p class="error-text">{{ errors.style }}</p>{% endif %}
+      </section>
+
+      <section class="form-section" aria-labelledby="budget-title">
+        <div class="section-heading"><span class="section-number">04</span><div><h3 id="budget-title">Wie hoch ist dein Budget?</h3><p>Wir bleiben innerhalb deiner Preisgrenze.</p></div></div>
+        <div class="budget-row"><label class="budget-control"><span class="sr-only">Maximales Budget in Euro</span><input id="budget" type="number" name="budget" min="5" max="500" step="1" value="{{ values.budget }}" required><span>€</span></label><div class="budget-presets" aria-label="Budgetvorschläge"><button type="button" data-budget="20">20 €</button><button type="button" data-budget="40">40 €</button><button type="button" data-budget="75">75 €</button><button type="button" data-budget="120">120 €</button></div></div>
+        {% if errors.budget %}<p class="error-text">{{ errors.budget }}</p>{% endif %}
+      </section>
+
+      <section class="form-section" aria-labelledby="deadline-title">
+        <div class="section-heading"><span class="section-number">05</span><div><h3 id="deadline-title">Wie viel Zeit bleibt?</h3><p>Wann wird das Geschenk benötigt?</p></div></div>
+        <div class="deadline-grid">{% for value, text in options.deadlines.items() %}<label class="deadline-choice"><input type="radio" name="deadline" value="{{ value }}" {% if values.deadline == value %}checked{% endif %}><span>{{ text }}</span></label>{% endfor %}</div>
+        {% if errors.deadline %}<p class="error-text">{{ errors.deadline }}</p>{% endif %}
+      </section>
+
+      <section class="form-section last-section" aria-labelledby="exclude-title">
+        <div class="section-heading"><span class="section-number">06</span><div><h3 id="exclude-title">Was kommt nicht infrage?</h3><p>Optional: Schließe unpassende Geschenkarten aus.</p></div></div>
+        <div class="avoid-grid">{% for value, text in options.exclusions.items() %}<label class="avoid-choice"><input type="checkbox" name="avoid" value="{{ value }}" {% if value in values.avoid %}checked{% endif %}><span>{{ text }}</span></label>{% endfor %}</div>
+        {% if errors.avoid %}<p class="error-text">{{ errors.avoid }}</p>{% endif %}
+      </section>
     </div>
-  </section>
-  <div class="submit-section">
-    <div><strong>Bereit für die Auflösung?</strong><p>Deine Angaben werden nur für diese Suche verwendet.</p></div>
-    <button class="primary-button" type="submit">Geschenkideen aufdecken <span aria-hidden="true">↗</span></button>
   </div>
+  <div class="submit-section"><div><span class="submit-kicker">ALLE HINWEISE GESAMMELT?</span><strong>Dann lösen wir den Fall.</strong><p>Deine Angaben werden nur für diese Suche verwendet.</p></div><button class="primary-button" type="submit">Geschenkideen finden <span aria-hidden="true">↗</span></button></div>
 </form>
 {% endblock %}
