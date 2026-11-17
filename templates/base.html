@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f1e8">
+  <meta name="theme-color" content="#f7f6f0">
   <meta name="description" content="Gift Detective findet durch deine Angaben durchdachte Geschenkideen – ohne endlose Suche.">
   <title>{% block title %}Gift Detective – Geschenkideen, die passen{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <script src="{{ url_for('static', filename='app.js') }}" defer></script>
 </head>
@@ -16,8 +16,8 @@
   <header class="site-header">
     <div class="header-inner wrap">
       <a class="brand" href="{{ url_for('home') }}" aria-label="Gift Detective – Startseite">
-        <span class="brand-mark" aria-hidden="true">G<span>D</span></span>
-        <span class="brand-name">gift detective<small>THE ART OF GIVING</small></span>
+        <span class="brand-mark" aria-hidden="true"><span>g</span>d</span>
+        <span class="brand-name">gift detective<small>FINDE DAS RICHTIGE GESCHENK</small></span>
       </a>
       <div class="header-right"><span class="online-indicator"></span><span>Dein persönlicher Geschenk-Finder</span></div>
     </div>
