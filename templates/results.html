@@ -27,7 +27,7 @@
     <div class="reason-list">
       {% for reason in item.reasons %}<span><span aria-hidden="true">✓</span> {{ reason }}</span>{% endfor %}
     </div>
-    <div class="result-bottom"><span>Richtwert <strong>{{ item.gift.price }} €</strong></span><button type="button" class="copy-button" data-copy="{{ item.gift.title }} – {{ item.gift.description }}" aria-label="Idee {{ item.gift.title }} kopieren">Idee kopieren <span aria-hidden="true">⧉</span></button></div>
+    <div class="result-bottom"><span>Richtwert <strong>{{ item.gift.price }} €</strong></span><div class="result-actions"><button type="button" class="copy-button" data-copy="{{ item.gift.title }} – {{ item.gift.description }}" aria-label="Idee {{ item.gift.title }} kopieren">Idee kopieren <span aria-hidden="true">⧉</span></button><a class="copy-button" href="https://www.google.com/search?q={{ (item.gift.title ~ ' kaufen bis ' ~ preferences.budget ~ ' Euro')|urlencode }}" target="_blank" rel="noopener noreferrer">Online finden ↗</a></div></div>
   </article>
   {% endfor %}
 </div>
