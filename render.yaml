@@ -1,8 +1,10 @@
 services:
   - type: web
+    # Name des bereits eingerichteten Render-Services beibehalten.
     name: python-projekt-formular
     runtime: python
     plan: free
+    autoDeployTrigger: "off"
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
     healthCheckPath: /health

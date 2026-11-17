@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Deine Geschenkideen – Gift Detective{% endblock %}
+{% block content %}
+<section class="result-hero">
+  <a class="back-link" href="{{ url_for('home') }}">← Neue Suche starten</a>
+  <p class="eyebrow"><span class="tiny-star">✦</span> DER FALL IST AUSGEWERTET</p>
+  <h1>Hier sind deine <em>besten Spuren.</em></h1>
+  <p class="hero-sub">Wir haben Geschenkideen nach deinen Angaben bewertet und passende Ideen für dich zusammengestellt.</p>
+  <div class="filter-summary">
+    <span>👤 {{ options.recipients[preferences.recipient] }}</span>
+    <span>🎉 {{ options.occasions[preferences.occasion] }}</span>
+    <span>💶 Bis {{ preferences.budget }} €</span>
+    <span>✦ {{ options.styles[preferences.style] }}</span>
+  </div>
+</section>
+
+{% if suggestions %}
+<div class="result-heading"><h2>{{ suggestions|length }} Ideen für dich</h2><span class="result-number">DETECTIVE REPORT / 001</span></div>
+<div class="results-grid">
+  {% set emoji = {'Lesen':'📚', 'Genuss':'🍽️', 'Erlebnis':'🎟️', 'Spiele':'🧩', 'Outdoor':'🌲', 'Pflanzen':'🪴', 'Reisen':'🧳', 'Musik':'🎵', 'Technik':'💡', 'Gaming':'🎮', 'Kreativ':'🎨', 'Persönlich':'💌', 'Fotografie':'📷', 'Wellness':'🕯️', 'Alltag':'☕', 'Sport':'🏃', 'Mode':'🧣', 'Natur':'🌿'} %}
+  {% for item in suggestions %}
+  <article class="gift-result {% if loop.first %}featured-result{% endif %}">
+    <div class="result-top"><span class="result-tag">{{ 'TOP-TREFFER' if loop.first else 'IDEE ' ~ '%02d'|format(loop.index) }}</span><span class="result-icon" aria-hidden="true">{{ emoji.get(item.gift.category, '🎁') }}</span></div>
+    <p class="result-category">{{ item.gift.category }}</p>
+    <h3>{{ item.gift.title }}</h3>
+    <p class="result-description">{{ item.gift.description }}</p>
+    <div class="reason-list">
+      {% for reason in item.reasons %}<span><span aria-hidden="true">✓</span> {{ reason }}</span>{% endfor %}
+    </div>
+    <div class="result-bottom"><span>Richtwert <strong>{{ item.gift.price }} €</strong></span><button type="button" class="copy-button" data-copy="{{ item.gift.title }} – {{ item.gift.description }}" aria-label="Idee {{ item.gift.title }} kopieren">Idee kopieren <span aria-hidden="true">⧉</span></button></div>
+  </article>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><div class="empty-icon">🔎</div><h2>Dieser Fall ist knifflig!</h2><p>Unter deinen Einschränkungen haben wir noch keine passende Idee. Versuch es mit einem etwas höheren Budget oder weniger Ausschlüssen.</p></div>
+{% endif %}
+<div class="result-next"><div><h2>Noch nicht das Richtige?</h2><p>Starte einen neuen Fall und ändere ein paar Angaben.</p></div><a href="{{ url_for('home') }}" class="primary-button">Neue Suche <span aria-hidden="true">↗</span></a></div>
+<p class="disclaimer">Alle Ideen stammen aus einem beispielhaften Katalog. Preise sind grobe Richtwerte, keine aktuellen Händlerangebote. Bei kurzfristigem Bedarf bitte die tatsächliche Verfügbarkeit prüfen. Die Vorschläge basieren auf einem regelbasierten Python-Algorithmus, nicht auf KI.</p>
+{% endblock %}

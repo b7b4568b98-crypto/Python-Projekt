@@ -1,56 +1,45 @@
-"""Einfaches Flask-Kontaktformular für das Deployment auf Render."""
-
+"""Gift Detective: Flask-Web-App für Geschenkempfehlungen."""
 import os
-import re
 import secrets
-
-from flask import Flask, flash, redirect, render_template, request, session, url_for
+from flask import Flask, render_template, request, session
+from gift_engine import (INTERESTS, RECIPIENTS, OCCASIONS, AGE_GROUPS,
+                         STYLES, DEADLINES, EXCLUSIONS,
+                         recommend, validate_preferences)
 
 app = Flask(__name__)
-# In Produktion setzt Render SECRET_KEY über render.yaml.
-# Der zufällige Fallback ist nur für das lokale Ausprobieren gedacht.
+# Render setzt SECRET_KEY. Lokal wird ein temporärer Schlüssel verwendet.
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
-app.config["MAX_CONTENT_LENGTH"] = 16 * 1024
+app.config["MAX_CONTENT_LENGTH"] = 32 * 1024
+
+OPTIONS = {"interests": INTERESTS, "recipients": RECIPIENTS,
+           "occasions": OCCASIONS, "ages": AGE_GROUPS, "styles": STYLES,
+           "deadlines": DEADLINES, "exclusions": EXCLUSIONS}
 
 
-def validate_form(values):
-    """Prüft die drei Eingabefelder und gibt Fehlermeldungen zurück."""
-    errors = {}
-    name = values["name"]
-    email = values["email"]
-    message = values["message"]
-
-    if not 2 <= len(name) <= 80:
-        errors["name"] = "Bitte gib einen Namen mit 2 bis 80 Zeichen ein."
-    if len(email) > 254 or not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
-        errors["email"] = "Bitte gib eine gültige E-Mail-Adresse ein."
-    if not 10 <= len(message) <= 2000:
-        errors["message"] = "Deine Nachricht muss 10 bis 2000 Zeichen enthalten."
-    return errors
+@app.get("/")
+def home():
+    token = session.setdefault("csrf", secrets.token_urlsafe(24))
+    return render_template("index.html", options=OPTIONS, token=token, errors={},
+                           values={"recipient": "freund", "occasion": "geburtstag",
+                                   "age": "adult", "style": "praktisch", "deadline": "flexibel",
+                                   "budget": 40, "interests": [], "avoid": []})
 
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    token = session.setdefault("csrf_token", secrets.token_urlsafe(32))
-    values = {"name": "", "email": "", "message": ""}
-    errors = {}
+@app.post("/ideen")
+def ideas():
+    token = session.get("csrf", "")
+    submitted = request.form.get("csrf", "")
+    if not token or not secrets.compare_digest(token, submitted):
+        return "Sitzung abgelaufen. Bitte lade die Startseite neu.", 400
 
-    if request.method == "POST":
-        submitted_token = request.form.get("csrf_token", "")
-        if not secrets.compare_digest(token, submitted_token):
-            errors["form"] = "Die Sitzung ist abgelaufen. Bitte lade die Seite neu."
-            return render_template("index.html", values=values, errors=errors, csrf_token=token), 400
+    values, errors = validate_preferences(request.form)
+    if errors:
+        return (render_template("index.html", options=OPTIONS, values=values,
+                                token=token, errors=errors), 400)
 
-        values = {field: request.form.get(field, "").strip() for field in values}
-        errors = validate_form(values)
-        if errors:
-            return render_template("index.html", values=values, errors=errors, csrf_token=token), 400
-
-        # Demo: keine Datenbank und kein E-Mail-Versand.
-        flash("Vielen Dank! Deine Eingabe wurde erfolgreich geprüft (Demo – nicht versendet oder gespeichert).", "success")
-        return redirect(url_for("index") + "#formular")
-
-    return render_template("index.html", values=values, errors=errors, csrf_token=token)
+    results = recommend(values, limit=6)
+    return render_template("results.html", options=OPTIONS,
+                           preferences=values, suggestions=results)
 
 
 @app.get("/health")

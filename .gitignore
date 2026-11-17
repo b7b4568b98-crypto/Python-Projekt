@@ -2,6 +2,6 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+.idea/
 .env
 .pytest_cache/
-.DS_Store

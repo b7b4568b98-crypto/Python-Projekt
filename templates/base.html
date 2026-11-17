@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Gift Detective findet durch deine Angaben durchdachte Geschenkideen – ohne endlose Suche.">
+  <title>{% block title %}Gift Detective – Geschenkideen, die passen{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+  <div class="backdrop" aria-hidden="true"></div>
+  <header class="site-header wrap">
+    <a class="brand" href="{{ url_for('home') }}" aria-label="Gift Detective – Startseite">
+      <span class="brand-icon" aria-hidden="true">✳</span>
+      <span>GIFT<span class="brand-accent">DETECTIVE</span></span>
+    </a>
+    <span class="header-chip"><span class="chip-dot"></span> Dein persönlicher Geschenk-Finder</span>
+  </header>
+  <main class="wrap">{% block content %}{% endblock %}</main>
+  <footer class="footer wrap">
+    <span>✳ GIFT DETECTIVE · Ein Python-Studienprojekt</span>
+    <span>Keine Werbung, keine Anmeldung, keine Speicherung deiner Angaben.</span>
+  </footer>
+</body>
+</html>
