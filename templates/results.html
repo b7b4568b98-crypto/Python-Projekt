@@ -3,12 +3,12 @@
 {% block content %}
 <section class="result-hero">
   <a class="back-link" href="{{ url_for('home') }}">← Neue Suche</a>
-  <div class="result-hero-grid"><div><p class="eyebrow"><span class="eyebrow-line"></span> FALL ABGESCHLOSSEN</p><h1>Wir haben da<br><em>ein paar Ideen.</em></h1><p class="hero-sub">Die Hinweise wurden ausgewertet. Hier sind Geschenkideen, die zu deiner Suche passen.</p></div><div class="result-stamp"><span>GIFT DETECTIVE</span><strong>CASE<br>CLOSED</strong><small>REPORT Nº 001</small></div></div>
+  <div class="result-hero-grid"><div><p class="eyebrow"><span class="eyebrow-line"></span> DEINE AUSWERTUNG</p><h1>Gute Ideen.<br><span>Für besondere Menschen.</span></h1><p class="hero-sub">Die Hinweise wurden ausgewertet. Hier sind Geschenkideen, die zu deiner Suche passen.</p></div><div class="result-stamp"><span>GIFT DETECTIVE</span><strong>IDEAS<br>FOR YOU</strong><small>PERSONAL SELECTION</small></div></div>
   <div class="filter-summary"><span>{{ options.recipients[preferences.recipient] }}</span><span>{{ options.occasions[preferences.occasion] }}</span><span>Budget bis {{ preferences.budget }} €</span><span>{{ options.styles[preferences.style] }}</span></div>
 </section>
 
 {% if suggestions %}
-<div class="result-heading"><div><p class="eyebrow">DIE AUSWERTUNG</p><h2>{{ suggestions|length }} passende Geschenkideen</h2></div><span class="result-number">DETECTIVE REPORT / 001</span></div>
+<div class="result-heading"><div><p class="eyebrow">DIE AUSWERTUNG</p><h2>{{ suggestions|length }} passende Geschenkideen</h2></div><span class="result-number">DEINE PERSÖNLICHE AUSWAHL</span></div>
 <div class="results-grid">
   {% set emoji = {'Lesen':'📚', 'Genuss':'🍽️', 'Erlebnis':'🎟️', 'Spiele':'🧩', 'Outdoor':'🌲', 'Pflanzen':'🪴', 'Reisen':'🧳', 'Musik':'🎵', 'Technik':'💡', 'Gaming':'🎮', 'Kreativ':'🎨', 'Persönlich':'💌', 'Fotografie':'📷', 'Wellness':'🕯️', 'Alltag':'☕', 'Sport':'🏃', 'Mode':'🧣', 'Natur':'🌿'} %}
   {% for item in suggestions %}
