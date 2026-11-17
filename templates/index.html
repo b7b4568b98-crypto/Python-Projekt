@@ -2,27 +2,28 @@
 {% block content %}
 <section class="hero">
   <div class="hero-copy">
-    <p class="eyebrow"><span class="eyebrow-line"></span> GESCHENKE MIT PERSÖNLICHKEIT</p>
-    <h1>Das richtige Geschenk.<br><em>Eine Spurensuche.</em></h1>
-    <p class="hero-sub">Schluss mit endlosem Suchen. Ein paar Hinweise genügen – und Gift Detective findet Ideen, die wirklich zu deiner Lieblingsperson passen.</p>
-    <a class="hero-cta" href="#gift-form">Fall jetzt aufnehmen <span>↓</span></a>
-    <div class="hero-meta"><span>01 / PERSON</span><span>02 / INTERESSEN</span><span>03 / GESCHENKIDEE</span></div>
+    <p class="eyebrow"><span class="eyebrow-line"></span> GESCHENKE, DIE WIRKLICH PASSEN</p>
+    <h1>Weniger suchen.<br><span>Mehr Freude</span> schenken.</h1>
+    <p class="hero-sub">Ein paar kurze Hinweise genügen. Gift Detective findet persönliche Geschenkideen, die zu deinem Lieblingsmenschen und deinem Budget passen.</p>
+    <a class="hero-cta" href="#gift-form">Geschenk finden <span aria-hidden="true">↘</span></a>
+    <div class="hero-meta"><span><b>01</b> Person</span><span><b>02</b> Interessen</span><span><b>03</b> Geschenkidee</span></div>
   </div>
-  <aside class="hero-visual" aria-label="Geschenkakte">
+  <aside class="hero-visual" aria-label="Beispiel einer Geschenkempfehlung">
+    <div class="visual-glow"></div>
     <div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div>
-    <div class="case-file">
-      <div class="file-top"><span>GIFT DETECTIVE</span><span>AKTE Nº 001</span></div>
-      <div class="file-illustration"><span class="magnifier">⌕</span><span class="file-star">✳</span></div>
-      <div class="file-label">GEHEIME GESCHENKAKTE</div>
-      <strong>Eine Freude,<br>die in Erinnerung bleibt.</strong>
-      <div class="file-bottom"><span>STATUS</span><b><i></i> IN BEARBEITUNG</b></div>
+    <div class="gift-card-back"></div>
+    <div class="gift-card">
+      <div class="gift-card-top"><span class="mini-mark">gd</span><span>DEINE AUSWAHL</span><span class="card-dots">•••</span></div>
+      <div class="gift-art"><div class="gift-box"><span></span></div><i class="art-spark spark-a">✳</i><i class="art-spark spark-b">✦</i></div>
+      <div class="gift-card-copy"><span class="card-kicker">MIT LIEBE AUSGESUCHT</span><strong>Das perfekte<br>Geschenk wartet.</strong><span class="card-line"></span><small>Persönlich. Durchdacht. Passend.</small></div>
     </div>
-    <span class="visual-caption">Jede gute Idee beginnt mit einem Hinweis.</span>
+    <div class="floating-note"><span class="note-check">✓</span><span><b>Passend zu dir</b><small>Ideen nach deinen Angaben</small></span></div>
+    <div class="visual-caption">Gute Geschenke beginnen mit guten Hinweisen.</div>
   </aside>
 </section>
 
 <section class="form-intro" id="gift-form">
-  <div><p class="eyebrow">DIE ERMITTLUNG BEGINNT</p><h2>Erzähl uns, für wen wir suchen.</h2></div>
+  <div><p class="eyebrow">DEIN GESCHENK-PROFIL</p><h2>Erzähl uns, für wen wir suchen.</h2></div>
   <p>Sechs kurze Schritte. Je genauer deine Hinweise, desto passender die Vorschläge.</p>
 </section>
 
@@ -30,7 +31,7 @@
   <input type="hidden" name="csrf" value="{{ token }}">
   {% if errors %}<div class="alert" role="alert">Bitte überprüfe die markierten Eingaben. Dein Formular wurde noch nicht ausgewertet.</div>{% endif %}
   <div class="form-layout">
-    <aside class="form-rail"><span class="rail-kicker">DEINE AKTE</span><div class="rail-number">06</div><p>Hinweise</p><span class="rail-rule"></span><small>Alle Angaben helfen dabei, die Auswahl einzugrenzen.</small></aside>
+    <aside class="form-rail"><span class="rail-kicker">DEIN WEG ZUR IDEE</span><div class="rail-number">06</div><p>kleine Schritte,<br>große Freude.</p><span class="rail-rule"></span><small>Alle Angaben helfen dabei, die Auswahl einzugrenzen.</small><div class="rail-steps"><span>01 <i>Person</i></span><span>02 <i>Interessen</i></span><span>03 <i>Geschenkstil</i></span><span>04 <i>Budget</i></span><span>05 <i>Zeit</i></span><span>06 <i>Ausschlüsse</i></span></div></aside>
     <div class="form-content">
       <section class="form-section" aria-labelledby="person-title">
         <div class="section-heading"><span class="section-number">01</span><div><h3 id="person-title">Für wen suchst du etwas?</h3><p>Der erste Hinweis: Wer soll überrascht werden?</p></div></div>
@@ -86,6 +87,6 @@
       </section>
     </div>
   </div>
-  <div class="submit-section"><div><span class="submit-kicker">ALLE HINWEISE GESAMMELT?</span><strong>Dann lösen wir den Fall.</strong><p>Deine Angaben werden nur für diese Suche verwendet.</p></div><button class="primary-button" type="submit">Geschenkideen finden <span aria-hidden="true">↗</span></button></div>
+  <div class="submit-section"><div><span class="submit-kicker">BEREIT FÜR DEINE GESCHENKIDEE?</span><strong>Dann kann die Suche starten.</strong><p>Deine Angaben werden nur für diese Suche verwendet.</p></div><button class="primary-button" type="submit">Geschenkideen finden <span aria-hidden="true">↗</span></button></div>
 </form>
 {% endblock %}
